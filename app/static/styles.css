@@ -1,0 +1,187 @@
+/* Стили для навигации */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #F2E0F7; /* Светлый фиолетовый */
+    padding: 10px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Логотип */
+.navbar-logo h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #000; ; /* Фиолетовый цвет логотипа */
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-link {
+    text-decoration: none;
+    color: #333; /* Стандартный цвет ссылок */
+    font-size: 1rem;
+    margin-right: 20px;
+    transition: color 0.3s ease;
+}
+
+.navbar-link:hover {
+    color: #6b46c1; /* Фиолетовый при наведении */
+}
+
+/* Активная вкладка */
+.navbar-link.active {
+    font-weight: bold;
+    color: #000; /* Черный цвет для текста */
+    background-color: transparent; /* Убираем фон */
+    padding: 0;
+    border-radius: 0;
+}
+
+/* Кнопка регистрации/авторизации */
+.navbar-auth {
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+    padding: 8px 15px;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navbar-auth:hover {
+    background-color: #444;
+}
+
+/* Адаптивность для навигации */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-logo {
+        margin-bottom: 10px;
+    }
+
+    .navbar-list {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-link {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
+
+/* Общий контейнер для страницы */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Блок с общей суммой поставок */
+.total-sum {
+    background-color: #d4f8d4; /* Светло-зеленый фон */
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Сетка для блоков */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 колонки */
+    gap: 20px;
+    width: 100%;
+}
+
+/* Блоки в сетке */
+.block {
+    background-color: #f8f8f8; /* Светлый фон */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    height: 300px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Общие стили для текста */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fafafa; /* Светлый фон для страницы */
+    color: #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+/* Кнопки */
+button {
+    background-color: #6b46c1;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #54329d;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-list {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-link {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr; /* 1 колонка */
+    }
+}

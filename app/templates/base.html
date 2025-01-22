@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Аналіз контрагентів{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJr+vmk8Sx3TQw6WRe3JgwSh2Vb35aZmDzXyRzj9FTy5uH+Qf8MGYvhsgHg5" crossorigin="anonymous">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="navbar-logo">
+                <h1>Аналіз контрагентів</h1>
+            </div>
+            <ul class="navbar-list">
+                <li><a href="/" class="navbar-link {% if active_page == 'home' %}active{% endif %}">Головна</a></li>
+                <li><a href="/reports" class="navbar-link {% if active_page == 'reports' %}active{% endif %}">Звіти</a></li>
+                <li><a href="/counterparties" class="navbar-link {% if active_page == 'counterparties' %}active{% endif %}">Контрагенти</a></li>
+                {% if not current_user.is_authenticated %}
+                    <li><a href="{{ url_for('register') }}" class="navbar-link navbar-auth">Реєстрація</a></li>
+                    <li><a href="{{ url_for('login') }}" class="navbar-link navbar-auth">Авторизація</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('logout') }}" class="navbar-link navbar-auth">Вийти</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div>
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <div class="container">
+        {% block content %}
+        <!-- Контент страниц -->
+        {% endblock %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybO0I9t+k7kVCP3fXzZQ1Hquh1wF5Jd9eRz/Uoa5I1KkV1aI6" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0dX0O2czI7jJrRkX2x3r+ISzcbnLxkBz1go3fNxYUlViB76i" crossorigin="anonymous"></script>
+</body>
+</html>
