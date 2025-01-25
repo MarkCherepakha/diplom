@@ -3,6 +3,7 @@ from models import db, Supply, Counterparty, User
 from forms import RegistrationForm, LoginForm
 from flask_login import LoginManager, UserMixin, current_user, login_required, logout_user, login_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 
@@ -10,6 +11,8 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///your_database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = '1111'
+
+migrate = Migrate(app, db)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
