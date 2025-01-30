@@ -1,5 +1,4 @@
-from app import db
-from app.models import Order, DataAboutOrder, Supply
+from app.app import Order, DataAboutOrder, Supply
 
 def calculate_order_fulfillment(v_zt, v_ot):
     """
