@@ -1,13 +1,12 @@
 from flask import Flask, request, jsonify, render_template, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, current_user, login_required, logout_user, login_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from datetime import date
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Length, Email, EqualTo
+from wtforms import StringField, PasswordField, SubmitField, IntegerField, FloatField, DateField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, NumberRange
 
 
 # Настройки для базы данных
@@ -25,16 +24,42 @@ class User(db.Model, UserMixin):
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Имя пользователя', validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Электронная почта', validators=[DataRequired(), Email()])
+    username = StringField("Ім`я користувача", validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Електронна пошта', validators=[DataRequired(), Email()])
     password = PasswordField('Пароль', validators=[DataRequired(), Length(min=8)])
-    confirm_password = PasswordField('Подтвердите пароль', validators=[DataRequired(), EqualTo('password')])
+    confirm_password = PasswordField('Підтвердіть пароль', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Зарегистрироваться')
 
 class LoginForm(FlaskForm):
-    email = StringField('Электронная почта', validators=[DataRequired(), Email()])
+    email = StringField('Електронна пошта', validators=[DataRequired(), Email()])
     password = PasswordField('Пароль', validators=[DataRequired()])
-    submit = SubmitField('Войти')
+    submit = SubmitField('Війти')
+
+
+# Форма для добавления контрагента
+class CounterpartyForm(FlaskForm):
+    name = StringField('Назва', validators=[DataRequired(), Length(max=50)])
+    license = StringField('Ліцензія', validators=[DataRequired(), Length(max=20)])
+    phone = StringField('Телефон', validators=[DataRequired(), Length(max=15)])
+    email = StringField('Email', validators=[DataRequired(), Email(), Length(max=50)])
+    business_risk_score = IntegerField('Ділова репутація (ДР)', validators=[DataRequired(), NumberRange(min=0, max=100)])
+    impact_score = IntegerField('Іміджевість/Медійність (ІМ)', validators=[DataRequired(), NumberRange(min=0, max=100)])
+    submit = SubmitField('Додати контрагента')
+
+# Форма для добавления данных о заказе
+class DataAboutOrderForm(FlaskForm):
+    date_receiving_planned = DateField('Запланована дата отримання', validators=[DataRequired()])
+    amount = FloatField('Сума у грн', validators=[DataRequired(), NumberRange(min=0)])
+    submit = SubmitField('Додати дані про замовлення')
+
+# Форма для добавления поставки
+class SupplyForm(FlaskForm):
+    data_about_order_id = IntegerField('ID даних про замовлення', validators=[DataRequired()])
+    counterparty_id = IntegerField('ID контрагента', validators=[DataRequired()])
+    date_receiving_actual = DateField('Фактична дата отримання', validators=[DataRequired()])
+    amount_receiving_actual = FloatField('Сума отримання у грн', validators=[DataRequired(), NumberRange(min=0)])
+    refund_amount = FloatField('Сума повернення у грн', validators=[DataRequired(), NumberRange(min=0)])
+    submit = SubmitField('Додати поставку')
 
 
 class Country(db.Model):
@@ -51,13 +76,13 @@ class Counterparty(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     license = db.Column(db.String(20), nullable=False)  # Лицензия как строка
-    country_id = db.Column(db.Integer, db.ForeignKey('country.id'), nullable=False)
+    #country_id = db.Column(db.Integer, db.ForeignKey('country.id'), nullable=False)
     phone = db.Column(db.String(15), nullable=False)
     email = db.Column(db.String(50), nullable=False)
     business_risk_score = db.Column(db.Integer, nullable=False)
     impact_score = db.Column(db.Integer, nullable=False)
 
-    country = db.relationship('Country', backref=db.backref('counterparties', lazy=True))
+    #country = db.relationship('Country', backref=db.backref('counterparties', lazy=True))
 
     def __repr__(self):
         return f"<Counterparty {self.name}>"
@@ -86,11 +111,11 @@ class Order(db.Model):
 class DataAboutOrder(db.Model):
     __tablename__ = 'data_about_order'
     id = db.Column(db.Integer, primary_key=True)
-    order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
+    #order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
     date_receiving_planned = db.Column(db.Date, nullable=False)
     amount = db.Column(db.Float, nullable=False)
 
-    order = db.relationship('Order', backref=db.backref('data', lazy=True))
+    #order = db.relationship('Order', backref=db.backref('data', lazy=True))
 
     def __repr__(self):
         return f"<DataAboutOrder {self.id}>"
@@ -118,10 +143,10 @@ class Supply(db.Model):
     __tablename__ = 'supply'
     id = db.Column(db.Integer, primary_key=True)
     data_about_order_id = db.Column(db.Integer, db.ForeignKey('data_about_order.id'), nullable=False)
-    rank_catalogue_id = db.Column(db.Integer, db.ForeignKey('rank_catalogue.id'), nullable=False)
+    #rank_catalogue_id = db.Column(db.Integer, db.ForeignKey('rank_catalogue.id'), nullable=False)
     counterparty_id = db.Column(db.Integer, db.ForeignKey('counterparty.id'), nullable=False)
-    revenue_invoice_id = db.Column(db.Integer, db.ForeignKey('revenue_invoice.id'), nullable=False)
-    return_invoice_id = db.Column(db.Integer, db.ForeignKey('return_invoice.id'), nullable=False)
+    #revenue_invoice_id = db.Column(db.Integer, db.ForeignKey('revenue_invoice.id'), nullable=False)
+    #return_invoice_id = db.Column(db.Integer, db.ForeignKey('return_invoice.id'), nullable=False)
     date_receiving_actual = db.Column(db.Date, nullable=False)
     amount_receiving_actual = db.Column(db.Float, nullable=False)
     refund_amount = db.Column(db.Float, nullable=True)
@@ -129,17 +154,14 @@ class Supply(db.Model):
     data_about_order = db.relationship('DataAboutOrder', backref=db.backref('supplies', lazy=True))
     rank_catalogue = db.relationship('RankCatalogue', backref=db.backref('supplies', lazy=True))
     counterparty = db.relationship('Counterparty', backref=db.backref('supplies', lazy=True))
-    revenue_invoice = db.relationship('RevenueInvoice', backref=db.backref('supplies', lazy=True))
-    return_invoice = db.relationship('ReturnInvoice', backref=db.backref('supplies', lazy=True))
+    #revenue_invoice = db.relationship('RevenueInvoice', backref=db.backref('supplies', lazy=True))
+    #return_invoice = db.relationship('ReturnInvoice', backref=db.backref('supplies', lazy=True))
 
     def __repr__(self):
         return f"<Supply {self.id}>"
 
 with app.app_context():
     db.create_all()
-    
-
-migrate = Migrate(app, db)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -149,7 +171,6 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 def create_tables():
-    db.drop_all()
     db.create_all()  # Создание таблиц
 
 # Главная страница
@@ -169,7 +190,7 @@ def counterparties():
 
 @app.route('/reports')
 def reports():
-    return render_template('reports.html', actice_page='reports')
+    return render_template('reports.html', active_page='reports')
 
 
 # --- CRUD для модели Supply ---
@@ -206,24 +227,23 @@ def get_supplies():
     ]
     return jsonify(supplies_list)
 
-# 3. Update (обновить запись)
-@app.route('/supplies/<int:supply_id>', methods=['PUT'])
-def update_supply(supply_id):
-    data = request.json
-    supply = Supply.query.get(supply_id)
-    if not supply:
-        return jsonify({'message': 'Supply not found'}), 404
-
-    # Обновляем данные
-    supply.ID_data_about_order = data['ID_data_about_order']
-    supply.ID_rank_catalogue = data['ID_rank_catalogue']
-    supply.ID_counterparty = data['ID_counterparty']
-    supply.Date_receiving_actual = data['Date_receiving_actual']
-    supply.Amount_receiving_actual = data['Amount_receiving_actual']
-    supply.Refund_amount = data.get('Refund_amount')
-
-    db.session.commit()
-    return jsonify({'message': 'Supply updated successfully'})
+# 3. Add (добавить запись)
+@app.route('/add_supply', methods=['GET', 'POST'])
+def add_supply():
+    form = SupplyForm()
+    if form.validate_on_submit():
+        supply = Supply(
+            data_about_order_id=form.data_about_order_id.data,
+            counterparty_id=form.counterparty_id.data,
+            date_receiving_actual=form.date_receiving_actual.data,
+            amount_receiving_actual=form.amount_receiving_actual.data,
+            refund_amount=form.refund_amount.data
+        )
+        db.session.add(supply)
+        db.session.commit()
+        flash('Поставка добавлена!', 'success')
+        return redirect(url_for('add_supply'))
+    return render_template('add_supply.html', form=form)
 
 # 4. Delete (удалить запись)
 @app.route('/supplies/<int:supply_id>', methods=['DELETE'])
@@ -238,21 +258,39 @@ def delete_supply(supply_id):
 
 # --- Аналогично можно реализовать CRUD для других моделей ---
 # Например, Counterparty
-@app.route('/counterparties', methods=['POST'])
-def create_counterparty():
-    data = request.json
-    new_counterparty = Counterparty(
-        Name=data['Name'],
-        Lisensis=data['Lisensis'],
-        ID_country=data['ID_country'],
-        Phone=data['Phone'],
-        E_mail=data['E_mail'],
-        BR_assessment=data['BR_assessment'],
-        IM_assessment=data['IM_assessment']
-    )
-    db.session.add(new_counterparty)
-    db.session.commit()
-    return jsonify({'message': 'Counterparty created successfully'}), 201
+# --- Форма добавления контрагента ---
+@app.route('/add_counterparty', methods=['GET', 'POST'])
+def add_counterparty():
+    form = CounterpartyForm()
+    if form.validate_on_submit():
+        new_counterparty = Counterparty(
+            name=form.name.data,
+            license=form.license.data,
+            phone=form.phone.data,
+            email=form.email.data,
+            business_risk_score=form.business_risk_score.data,
+            impact_score=form.impact_score.data
+        )
+        db.session.add(new_counterparty)
+        db.session.commit()
+        flash('Контрагент успешно добавлен!', 'success')
+        return redirect(url_for('home'))
+    return render_template('add_counterparty.html', form=form)
+
+
+@app.route('/add_data_about_order', methods=['GET', 'POST'])
+def add_data_about_order():
+    form = DataAboutOrderForm()
+    if form.validate_on_submit():
+        order_data = DataAboutOrder(
+            date_receiving_planned=form.date_receiving_planned.data,
+            amount=form.amount.data
+        )
+        db.session.add(order_data)
+        db.session.commit()
+        flash('Данные о заказе добавлены!', 'success')
+        return redirect(url_for('add_data_about_order'))
+    return render_template('add_data_about_order.html', form=form)
 
 # Регистрация\авторизация
 @app.route("/register", methods=["GET", "POST"])
@@ -266,7 +304,7 @@ def register():
                 password=generate_password_hash(form.password.data))
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for('login'))
+        return redirect(url_for('home'))
     return render_template('register.html', form=form)
 
 @app.route("/login", methods=["GET", "POST"])

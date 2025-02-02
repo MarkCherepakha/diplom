@@ -1,8 +1,14 @@
 'name: NSAC
 password: qwerty
-e-mail: ango@gmail.com'
+e-mail: ango@gmail.com
 
 
-'name: Mark
-password: 123456
-e-mail: mark@gmail.com'
+name: Mark
+password: 12345678
+e-mail: mark@gmail.com
+
+
+name: h_a_chess
+password: 12345678
+e-mail: hachess@gmail.com'
+

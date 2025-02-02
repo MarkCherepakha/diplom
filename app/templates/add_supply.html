@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow p-4 mt-4">
+    <h2 class="text-center">Додавання постачання</h2>
+    <form method="POST" class="mt-4">
+        {{ form.hidden_tag() }}
+
+        <div class="mb-2">
+            <label class="form-label">{{ form.data_about_order_id.label }}</label>
+            {{ form.data_about_order_id(class="form-control") }}
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label">{{ form.counterparty_id.label }}</label>
+            {{ form.counterparty_id(class="form-control") }}
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label">{{ form.date_receiving_actual.label }}</label>
+            {{ form.date_receiving_actual(class="form-control") }}
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label">{{ form.amount_receiving_actual.label }}</label>
+            {{ form.amount_receiving_actual(class="form-control", placeholder="Введіть суму отримання") }}
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label">{{ form.refund_amount.label }}</label>
+            {{ form.refund_amount(class="form-control", placeholder="Введіть суму повернення (якщо є)") }}
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Додати</button>
+    </form>
+</div>
+{% endblock %}

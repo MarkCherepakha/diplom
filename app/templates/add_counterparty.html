@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Додавання контрагента</h2>
+    
+    <div class="card shadow p-4 mt-4">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+
+            <div class="row">
+                <!-- Основная информация -->
+                <div class="col-md-4">
+                    <div class="p-3 border rounded bg-light">
+                        <h5 class="text-center">Основна інформація</h5>
+                        <div class="mb-3">
+                            <label class="form-label">{{ form.name.label }}</label>
+                            {{ form.name(class="form-control", placeholder="Введіть назву компанії") }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">{{ form.license.label }}</label>
+                            {{ form.license(class="form-control", placeholder="Введіть номер ліцензії") }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Контактные данные -->
+                <div class="col-md-4">
+                    <div class="p-3 border rounded bg-light">
+                        <h5 class="text-center">Контактні дані</h5>
+                        <div class="mb-3">
+                            <label class="form-label">{{ form.phone.label }}</label>
+                            {{ form.phone(class="form-control", placeholder="Введіть номер телефону") }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">{{ form.email.label }}</label>
+                            {{ form.email(class="form-control", placeholder="Введіть email") }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Оценка рисков -->
+                <div class="col-md-4">
+                    <div class="p-3 border rounded bg-light">
+                        <h5 class="text-center">Оцінка за критеріям</h5>
+                        <div class="mb-3">
+                            <label class="form-label">{{ form.business_risk_score.label }}</label>
+                            {{ form.business_risk_score(class="form-control", placeholder="Ділова репутація (ДР)") }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">{{ form.impact_score.label }}</label>
+                            {{ form.impact_score(class="form-control", placeholder="Іміджевість/Медійність (ІМ)") }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mt-3">Додати</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

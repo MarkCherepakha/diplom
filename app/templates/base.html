@@ -38,6 +38,11 @@
         {% endif %}
     {% endwith %}
     <div class="container">
+        <ul class="navbar-list">
+            <li><a href="/add_counterparty" class="navbar-link {% if active_page == 'add_counterparty' %}active{% endif %}">Додати контрагента</a></li>
+            <li><a href="/add_data_about_order" class="navbar-link {% if active_page == 'add_data_about_order' %}active{% endif %}">Додати дані про замовлення</a></li>
+            <li><a href="/add_supply" class="navbar-link {% if active_page == 'add_supply' %}active{% endif %}">Додати постачання</a></li>
+        </ul>
         {% block content %}
         <!-- Контент страниц -->
         {% endblock %}

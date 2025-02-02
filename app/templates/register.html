@@ -1,9 +1,83 @@
 {% extends "base.html" %}
 
 {% block content %}
+<head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .registration-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        input:focus {
+            border-color: #0056b3;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #003f8c;
+        }
+
+        p {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        a {
+            color: #0056b3;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
 <div class="row justify-content-center">
     <div class="col-md-6">
-        <h2 class="text-center mb-4">Регистрация</h2>
         
         <!-- Вывод сообщений об успехе или ошибке -->
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -15,33 +89,53 @@
             {% endif %}
         {% endwith %}
         
-        <form method="POST">
-            {{ form.hidden_tag() }}
-            
-            <div class="mb-3">
-                <label for="username" class="form-label">Имя пользователя</label>
-                {{ form.username(class="form-control") }}
-            </div>
-
-            <div class="mb-3">
-                <label for="email" class="form-label">Электронная почта</label>
-                {{ form.email(class="form-control") }}
-            </div>
-
-            <div class="mb-3">
-                <label for="password" class="form-label">Пароль</label>
-                {{ form.password(class="form-control") }}
-            </div>
-
-            <div class="mb-3">
-                <label for="confirm_password" class="form-label">Подтвердите пароль</label>
-                {{ form.confirm_password(class="form-control") }}
-            </div>
-
-            <div class="mb-3 text-center">
-                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-            </div>
-        </form>
+        <div class="registration-container">
+            <h2>Реєстрація користувача</h2>
+            <form id="registrationForm" action="/submit-registration" method="POST">
+                <label for="username">Логін</label>
+                <input type="text" id="username" name="username" required>
+                
+                <label for="lastName">Прізвище</label>
+                <input type="text" id="lastName" name="lastName" required>
+        
+                <label for="firstName">Ім'я</label>
+                <input type="text" id="firstName" name="firstName" required>
+                
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password" required>
+                
+                <label for="confirmPassword">Підтвердження пароля</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+        
+                <button type="submit">Зареєструватись</button>
+            </form>        
+            <p>Вже маєте акаунт? <a href="/login">Увійти</a></p>
+        </div>
     </div>
 </div>
+<script>
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+    var password = document.getElementById('password').value;
+    var confirmPassword = document.getElementById('confirmPassword').value;
+    
+    // Проверка на совпадение паролей
+    if (password !== confirmPassword) {
+        alert('Паролі не збігаються!');
+        e.preventDefault();  // Останавливает отправку формы
+        return;  // Выход из функции
+    }
+
+    // Проверка надежности пароля
+    if (!isPasswordStrong(password)) {
+        alert('Пароль повинен містити хоча б 8 символів, включаючи великі та малі літери, цифри та спеціальні символи.');
+        e.preventDefault();  // Останавливает отправку формы
+        return;  // Выход из функции
+    }
+});
+
+function isPasswordStrong(password) {
+    var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return regex.test(password);
+}
+</script>
 {% endblock %}

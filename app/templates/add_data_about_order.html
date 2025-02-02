@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow p-4 mt-4">
+    <h2 class="text-center">Додавання даних про замовлення</h2>
+    <form method="POST" class="mt-4">
+        {{ form.hidden_tag() }}
+        
+        <div class="mb-3">
+            <label class="form-label">{{ form.date_receiving_planned.label }}</label>
+            {{ form.date_receiving_planned(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">{{ form.amount.label }}</label>
+            {{ form.amount(class="form-control", placeholder="Введіть суму у гривнях") }}
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Додати</button>
+    </form>
+</div>
+{% endblock %}
