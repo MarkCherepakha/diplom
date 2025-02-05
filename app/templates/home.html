@@ -3,8 +3,35 @@
 {% block title %}Головна - Аналіз контрагентів{% endblock %}
 
 {% block content %}
-<div class="total-sum">
-    Загальна сума поставок<br><strong>823 460.47 ₴</strong>
+<style>
+    .filter-container {
+        margin-bottom: 15px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .total-sum, .best-counterparty {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    input.form-control {
+        width: 150px;
+    }
+
+    button.btn {
+        padding: 5px 10px;
+    }
+</style>
+<div class="filter-container">
+    <label for="start-date">Початкова дата:</label>
+    <input type="date" id="start-date" class="form-control">
+
+    <label for="end-date">Кінцева дата:</label>
+    <input type="date" id="end-date" class="form-control">
+
+    <button id="filter-btn" class="btn btn-primary">Застосувати</button>
 </div>
 <div class="grid">
     <div class="block"></div>
@@ -12,4 +39,23 @@
     <div class="block"></div>
     <div class="block"></div>
 </div>
+<script>
+    document.getElementById("filter-btn").addEventListener("click", function() {
+        let startDate = document.getElementById("start-date").value;
+        let endDate = document.getElementById("end-date").value;
+    
+        if (!startDate || !endDate) {
+            alert("Будь ласка, виберіть обидві дати!");
+            return;
+        }
+    
+        fetch(`/filter_data?start_date=${startDate}&end_date=${endDate}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("total-amount").innerText = data.total_sum + " ₴";
+                document.getElementById("best-counterparty").innerText = data.best_counterparty;
+            })
+            .catch(error => console.error("Error:", error));
+    });
+</script>
 {% endblock %}

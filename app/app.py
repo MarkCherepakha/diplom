@@ -3,10 +3,10 @@ from flask_login import LoginManager, UserMixin, current_user, login_required, l
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
-from datetime import date
+from datetime import datetime
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, FloatField, DateField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, NumberRange
+from wtforms.validators import DataRequired, Length, Email, EqualTo, NumberRange, Optional
 
 
 # Настройки для базы данных
@@ -50,6 +50,7 @@ class CounterpartyForm(FlaskForm):
 class DataAboutOrderForm(FlaskForm):
     date_receiving_planned = DateField('Запланована дата отримання', validators=[DataRequired()])
     amount = FloatField('Сума у грн', validators=[DataRequired(), NumberRange(min=0)])
+    payment_terms = StringField('Умови оплати', validators=[Optional()])
     submit = SubmitField('Додати дані про замовлення')
 
 # Форма для добавления поставки
@@ -114,11 +115,12 @@ class DataAboutOrder(db.Model):
     #order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
     date_receiving_planned = db.Column(db.Date, nullable=False)
     amount = db.Column(db.Float, nullable=False)
+    payment_terms = db.Column(db.String(100), nullable=True)
 
     #order = db.relationship('Order', backref=db.backref('data', lazy=True))
 
     def __repr__(self):
-        return f"<DataAboutOrder {self.id}>"
+        return f"<DataAboutOrder {self.id}, Payment Terms: {self.payment_terms}>"
 
 
 class RevenueInvoice(db.Model):
@@ -325,6 +327,41 @@ def logout():
     logout_user()
     flash('Вы вышли из системы!', 'info')
     return redirect(url_for('login'))
+
+@app.route("/filter_data")
+def filter_data():
+    start_date = request.args.get("start_date")
+    end_date = request.args.get("end_date")
+
+    if not start_date or not end_date:
+        return jsonify({"error": "Невірний діапазон дат"}), 400
+
+    try:
+        start_date = datetime.strptime(start_date, "%Y-%m-%d")
+        end_date = datetime.strptime(end_date, "%Y-%m-%d")
+    except ValueError:
+        return jsonify({"error": "Невірний формат дати"}), 400
+
+    total_sum = (
+        db.session.query(db.func.sum(Supply.amount_receiving_actual))
+        .filter(Supply.date_receiving_actual.between(start_date, end_date))
+        .scalar()
+        or 0
+    )
+
+    best_counterparty = (
+        db.session.query(Counterparty.name, db.func.sum(Supply.amount_receiving_actual))
+        .join(Supply)
+        .filter(Supply.date_receiving_actual.between(start_date, end_date))
+        .group_by(Counterparty.name)
+        .order_by(db.func.sum(Supply.amount_receiving_actual).desc())
+        .first()
+    )
+
+    return jsonify({
+        "total_sum": round(total_sum, 2),
+        "best_counterparty": best_counterparty[0] if best_counterparty else "Немає даних"
+    })
 
 
 if __name__ == "__main__":

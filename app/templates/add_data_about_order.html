@@ -16,6 +16,11 @@
             {{ form.amount(class="form-control", placeholder="Введіть суму у гривнях") }}
         </div>
 
+        <div class="mb-3">
+            <label class="form-label">{{ form.payment_terms.label }}</label>
+            {{ form.payment_terms(class="form-control", placeholder="Введіть умови оплати") }}
+        </div>
+
         <button type="submit" class="btn btn-primary w-100">Додати</button>
     </form>
 </div>
