@@ -3,10 +3,462 @@
 {% block title %}Звіти - Аналіз контрагентів{% endblock %}
 
 {% block content %}
-<h2>Звіти</h2>
-<p>Тут будуть представлені звіти по контрагентах.</p>
+<h2 class="title">Звіти</h2>
 <div class="grid">
-    <div class="block">Звіт "Обсяг невідповідності"</div>
-    <div class="block">Звіт 2</div>
+    <div class="block"> 
+        <h3>Аналіз контрагентів за критерієм обсяг невідповідності</h3>
+        <label>Оберіть проміжок часу:</label>
+        <input type="date"> - <input type="date">
+        <label>Оберіть контрагента:</label>
+        <select>
+            <option>Всі контрагенти</option>
+            <option>ТОВ Ango</option>
+            <option>ТОВ JG</option>
+            <option>ТОВ Сантан</option>
+            <option>ТОВ Санді</option>
+            <option>ТОВ Сантехопт</option>
+            <option>ТОВ Альфа-сант</option>
+        </select>
+        <label>Оберіть деталізацію за часом:</label>
+        <select>
+            <option>Без деталізації</option>
+            <option>За місяцями</option>
+            <option>За рокамм</option>
+        </select>
+        <div>
+            <button onclick="openModal('modal1')">Сформувати</button>
+        </div>
+    </div>
+
+    <div class="block central"> 
+        <h3>Загальний аналіз контрагентів</h3>
+        <label>Оберіть проміжок часу:</label>
+        <input type="date"> - <input type="date">
+        <label>Оберіть контрагента:</label>
+        <select>
+            <option>Всі контрагенти</option>
+            <option>ТОВ Ango</option>
+            <option>ТОВ JG</option>
+            <option>ТОВ Сантан</option>
+            <option>ТОВ Санді</option>
+            <option>ТОВ Сантехопт</option>
+            <option>ТОВ Альфа-сант</option>
+        </select>
+        <label>Оберіть тип деталізації за критеріями:</label>
+        <select>
+            <option>Без деталізації</option>
+            <option>За всіма критеріями</option>
+        </select>
+        <label>Оберіть деталізацію за часом:</label>
+        <select>
+            <option>Без деталізації</option>
+            <option>За місяцями</option>
+            <option>За рокамм</option>
+        </select>
+        <div>
+            <button onclick="openModal('modal2')">Сформувати</button>
+        </div>
+    </div>
+
+    <div class="block"> 
+        <h3>Аналіз обсягу виконання замовлень</h3>
+        <label>Оберіть проміжок часу:</label>
+        <input type="date"> - <input type="date">
+        <label>Оберіть контрагента:</label>
+        <select>
+            <option>Всі контрагенти</option>
+            <option>ТОВ Ango</option>
+            <option>ТОВ JG</option>
+            <option>ТОВ Сантан</option>
+            <option>ТОВ Санді</option>
+            <option>ТОВ Сантехопт</option>
+            <option>ТОВ Альфа-сант</option>
+        </select>
+        <label>Оберіть деталізацію за часом:</label>
+        <select>
+            <option>Без деталізації</option>
+            <option>За місяцями</option>
+            <option>За рокамм</option>
+        </select>
+        <div>
+            <button onclick="openModal('modal3')">Сформувати</button>
+        </div>
+    </div>
+
+    <div class="block"> 
+        <h3>Аналіз рівня організації поставок</h3>
+        <label>Оберіть проміжок часу:</label>
+        <input type="date"> - <input type="date">
+        <label>Оберіть контрагента:</label>
+        <select>
+            <option>Всі контрагенти</option>
+            <option>ТОВ Ango</option>
+            <option>ТОВ JG</option>
+            <option>ТОВ Сантан</option>
+            <option>ТОВ Санді</option>
+            <option>ТОВ Сантехопт</option>
+            <option>ТОВ Альфа-сант</option>
+        </select>
+        <label>Оберіть деталізацію за часом:</label>
+        <select>
+            <option>Без деталізації</option>
+            <option>За місяцями</option>
+            <option>За рокамм</option>
+        </select>
+        <div>
+            <button onclick="openModal('modal4')">Сформувати</button>
+        </div>
+    </div>
+
+    <div class="block"> 
+        <h3>Аналіз умов оплати</h3>
+        <label>Оберіть проміжок часу:</label>
+        <input type="date"> - <input type="date">
+        <label>Оберіть контрагента:</label>
+        <select>
+            <option>Всі контрагенти</option>
+            <option>ТОВ Ango</option>
+            <option>ТОВ JG</option>
+            <option>ТОВ Сантан</option>
+            <option>ТОВ Санді</option>
+            <option>ТОВ Сантехопт</option>
+            <option>ТОВ Альфа-сант</option>
+        </select>
+        <label>Оберіть деталізацію за часом:</label>
+        <select>
+            <option>Без деталізації</option>
+            <option>За місяцями</option>
+            <option>За рокамм</option>
+        </select>
+        <div>
+            <button onclick="openModal('modal5')">Сформувати</button>
+        </div>
+    </div>
 </div>
+<!-- Модальные окна -->
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal1')">&times;</span>
+        <h2>Аналіз контрагентів за критерієм обсяг невідповідності</h2>
+        <div class="modal-scroll">
+            <p>з <span id="startDate">01.01.2025</span> до <span id="endDate">31.05.2025</span></p>
+        
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Код</th>
+                        <th>Контрагент</th>
+                        <th>Січень</th>
+                        <th>Лютий</th>
+                        <th>Березень</th>
+                        <th>Квітень</th>
+                        <th>Травень</th>
+                    </tr>
+                </thead>
+                <tbody id="reportTable">
+                    <tr>
+                        <td>1</td>
+                        <td>ТОВ Ango</td>
+                        <td>1.8</td>
+                        <td>1.0</td>
+                        <td>1.7</td>
+                        <td>1.8</td>
+                        <td>1.97</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>ТОВ JG</td>
+                        <td>1.6</td>
+                        <td>1.9</td>
+                        <td>1.6</td>
+                        <td>1.65</td>
+                        <td>1.8</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>ТОВ Сантан</td>
+                        <td>1.5</td>
+                        <td>2.0</td>
+                        <td>1.4</td>
+                        <td>1.6</td>
+                        <td>1.72</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>ТОВ Санді</td>
+                        <td>1.2</td>
+                        <td>1.5</td>
+                        <td>1.1</td>
+                        <td>1.3</td>
+                        <td>1.45</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>ТОВ Сантехопт</td>
+                        <td>0.97</td>
+                        <td>1.3</td>
+                        <td>1.0</td>
+                        <td>1.2</td>
+                        <td>1.32</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>ТОВ Альфа-Сант</td>
+                        <td>0.6</td>
+                        <td>0.7</td>
+                        <td>0.45</td>
+                        <td>0.7</td>
+                        <td>0.95</td>
+                    </tr>
+                </tbody>
+            </table>
+            <canvas id="reportChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<div id="modal2" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal2')">&times;</span>
+        <h2>Загальний аналіз контрагентів</h2>
+        <p>Тут буде детальний аналіз...</p>
+    </div>
+</div>
+
+<div id="modal3" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal3')">&times;</span>
+        <h2>Аналіз обсягу виконання замовлень</h2>
+        <p>Тут буде детальний аналіз...</p>
+    </div>
+</div>
+
+<div id="modal4" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal4')">&times;</span>
+        <h2>Аналіз рівня організації поставок</h2>
+        <p>Тут буде детальний аналіз...</p>
+    </div>
+</div>
+
+<div id="modal5" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal5')">&times;</span>
+        <h2>Аналіз умов оплати</h2>
+        <p>Тут буде детальний аналіз...</p>
+    </div>
+</div>
+
+<!-- JavaScript для управления модальными окнами -->
+<script>
+    function openModal(id) {
+        document.getElementById(id).style.display = "block";
+        if (id === "modal1") {
+            renderChart(); // Вызываем рендеринг графика при открытии модального окна
+        }
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target.classList.contains("modal")) {
+            event.target.style.display = "none";
+        }
+    }
+
+    function renderChart() {
+        let ctx = document.getElementById('reportChart').getContext('2d');
+
+        if (window.myChart) {
+            window.myChart.destroy(); // Удаляем предыдущий график, чтобы избежать дублирования
+        }
+
+        window.myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ["Січень", "Лютий", "Березень", "Квітень", "Травень"],
+                datasets: [
+                    {
+                        label: "ТОВ Ango",
+                        data: [1.8, 1.0, 1.7, 1.8, 1.97],
+                        borderColor: "blue",
+                        backgroundColor: "rgba(0, 0, 255, 0.2)",
+                        borderWidth: 2
+                    },
+                    {
+                        label: "ТОВ JG",
+                        data: [1.6, 1.9, 1.6, 1.65, 1.8],
+                        borderColor: "red",
+                        backgroundColor: "rgba(255, 0, 0, 0.2)",
+                        borderWidth: 2
+                    },
+                    {
+                        label: "ТОВ Сантан",
+                        data: [1.5, 2.0, 1.4, 1.6, 1.72],
+                        borderColor: "green",
+                        backgroundColor: "rgba(0, 255, 0, 0.2)",
+                        borderWidth: 2
+                    },
+                    {
+                        label: "ТОВ Санді",
+                        data: [1.2, 1.5, 1.1, 1.3, 1.45],
+                        borderColor: "orange",
+                        backgroundColor: "rgba(255, 178, 102, 0.2)",
+                        borderWidth: 2
+                    },
+                    {
+                        label: "ТОВ Сантехопт",
+                        data: [0.97, 1.3, 1.0, 1.2, 1.32],
+                        borderColor: "purple",
+                        backgroundColor: "rgba(255, 102, 255, 0.2)",
+                        borderWidth: 2
+                    },
+                    {
+                        label: "ТОВ Альфа-сант",
+                        data: [0.6, 0.7, 0.45, 0.7, 0.95],
+                        borderColor: "#808000 ",
+                        backgroundColor: "rgba(128, 128, 0, 0.2)",
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' }
+                }
+            }
+        });
+    }
+</script>
+
+<style>
+    .title {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr 1fr; /* Центральный блок шире */
+        grid-template-rows: auto auto; /* Две строки */
+        gap: 20px;
+        padding: 10px;
+        align-items: center;
+    }
+
+    .central {
+        grid-row: span 2; /* Центральный блок занимает 2 строки */
+        width: 100%;
+        max-width: 600px; /* Ограничение по ширине */
+        min-height: 700px;
+        align-items: center;
+    }
+
+    .block h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .block label {
+        display: block;
+        margin: 5px 5px 5px;
+        font-weight: bold;
+    }
+
+    .block input, .block select {
+        width: 45%;
+        padding: 5px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button {
+        background-color: #6f65fe;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    /* Стили для модальных окон */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+        background-color: white;
+        margin: 10% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 80%;
+        height: 500px;
+        text-align: center;
+        overflow-y: auto;
+        box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-scroll {
+        overflow-x: auto;
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    .chart-container {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+
+
+    .close {
+        float: right;
+        font-size: 22px;
+        cursor: pointer;
+        color: #aaa;
+    }
+
+    .close:hover {
+        color: black;
+    }
+
+    .table {
+        width: 100%;
+        text-align: center;
+        border-collapse: collapse;
+    }
+
+    .table th, .table td {
+        padding: 8px;
+        border: 1px solid #ddd;
+    }
+
+    .table thead {
+        background-color: #87CEFA; /* Голубой заголовок */
+        font-weight: bold;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+</style>
 {% endblock %}

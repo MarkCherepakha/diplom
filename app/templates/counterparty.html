@@ -4,9 +4,201 @@
 
 {% block content %}
 <h2>Контрагенти</h2>
-<p>Тут ви можете переглядати та керувати контрагентами.</p>
 <div class="grid">
-    <div class="block">Контрагент 1</div>
-    <div class="block">Контрагент 2</div>
+    <div class="container1">
+        <table class="table table-striped table-bordered text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Код</th>
+                    <th>Назва</th>
+                    <th>E-mail</th>
+                    <th>Телефон</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>001</td>
+                    <td onclick="openModal('modal6')">ТОВ Ango</td>
+                    <td><a href="mailto:ango@gmail.com">ango@gmail.com</a></td>
+                    <td></td>
+                </tr>
+            
+                <tr>
+                    <td>002</td>
+                    <td onclick="openModal('modal7')">ТОВ JG</td>
+                    <td><a href="mailto:jg@gmail.com">jg@gmail.com</a></td>
+                    <td></td>
+                </tr>
+    
+                <tr>
+                    <td>003</td>
+                    <td onclick="openModal('modal8')">ТОВ Сантан</td>
+                    <td><a href="mailto:santan@gmail.com">santan@gmail.com</a></td>
+                    <td></td>
+                  </tr>
+    
+                <tr>
+                    <td>004</td>
+                    <td onclick="openModal('modal9')">ТОВ Санді</td>
+                    <td><a href="mailto:sandi@gmail.com">sandi@gmail.com</a></td>
+                    <td></td>
+                </tr>
+    
+                <tr>
+                    <td>005</td>
+                    <td onclick="openModal('modal10')">ТОВ Сантехопт</td>
+                    <td><a href="mailto:santehopt@gmail.com">santehopt@gmail.com</a></td>
+                    <td></td>
+                </tr>
+    
+                <tr onclick="openModal('modal11')">
+                    <td>006</td>
+                    <td>ТОВ Альфа-сант</td>
+                    <td><a href="mailto:alphasant@gmail.com">alphasant@gmail.com</a></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+<!-- Модальные окна -->
+<div id="modal6" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal6')">&times;</span>
+        <h2>ТОВ Ango</h2>
+        <table class="table table-striped table-bordered text-center">
+                <tr>
+                    <td>Керівник</td>
+                    <td>ПІБ</td>
+                </tr>
+                <tr>
+                    <td>Дата народження</td>
+                    <td>03.03.1967</td>
+                </tr>
+                <tr>
+                    <td>Сфера інтересів</td>
+                    <td>Полюбляє пінг-понг</td>
+                </tr>
+        </table>
+    </div>
+</div>
+
+<div id="modal7" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal7')">&times;</span>
+        <h2>ТОВ JG</h2>
+        <p>Тут буде детальний аналіз...</p>
+    </div>
+</div>
+
+<div id="modal8" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal8')">&times;</span>
+        <h2>ТОВ Сантан</h2>
+        <p>Тут буде детальний аналіз...</p>
+    </div>
+</div>
+
+<div id="modal9" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal9')">&times;</span>
+        <h2>ТОВ Санді</h2>
+        <p>Тут буде детальний аналіз...</p>
+    </div>
+</div>
+
+<div id="modal10" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal10')">&times;</span>
+        <h2>ТОВ Сантехопт</h2>
+        <p>Тут буде детальний аналіз...</p>
+    </div>
+</div>
+
+<div id="modal11" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal11')">&times;</span>
+        <h2>ТОВ Сантехопт</h2>
+        <p>Тут буде детальний аналіз...</p>
+    </div>
+</div>
+<!-- JavaScript для управления модальными окнами -->
+<script>
+    function openModal(id) {
+        document.getElementById(id).style.display = "block";
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).style.display = "none";
+    }
+
+    // Закрытие по клику вне окна
+    window.onclick = function(event) {
+        if (event.target.classList.contains("modal")) {
+            event.target.style.display = "none";
+        }
+    }
+</script>
+<style>
+    .container1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+    th {
+        background-color: #515a63;
+        color: white;
+    }
+    tr:hover td {
+        background: #e8edff;
+    }
+    /* Стили для модальных окон */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+        background-color: white;
+        margin: 10% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 50%;
+        height: 500px;
+        text-align: center;
+        box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .close {
+        float: right;
+        font-size: 22px;
+        cursor: pointer;
+        color: #aaa;
+    }
+
+    .close:hover {
+        color: black;
+    }
+</style>
 {% endblock %}

@@ -3,7 +3,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #F2E0F7; /* Светлый фиолетовый */
+    background-color: #afdefc; /* Светлый голубой */
     padding: 10px 20px;
     border-bottom: 1px solid #e0e0e0;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
@@ -35,7 +35,8 @@
 }
 
 .navbar-link:hover {
-    color: #6b46c1; /* Фиолетовый при наведении */
+    color: #b49af1; /* Фиолетовый при наведении */
+    text-decoration: none;
 }
 
 /* Активная вкладка */
@@ -54,14 +55,11 @@
     color: #333;
     padding: 8px 15px;
     border-radius: 5px;
-    background-color: black;
+    background-color: #6f65fe;
     color: white;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.navbar-auth:hover {
-    background-color: #444;
-}
 
 /* Адаптивность для навигации */
 @media (max-width: 768px) {
@@ -122,7 +120,7 @@
     background-color: #f8f8f8; /* Светлый фон */
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-    height: 300px;
+    height: 340px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
