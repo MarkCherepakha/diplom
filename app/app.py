@@ -19,16 +19,19 @@ db = SQLAlchemy(app)
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
+    usersurname = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
 
 
 class RegistrationForm(FlaskForm):
+    login = StringField("Нік користувача", validators=[DataRequired(), Length(min=2, max=20)])
     username = StringField("Ім`я користувача", validators=[DataRequired(), Length(min=2, max=20)])
+    usersurname = StringField("Прізвище користувача", validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Електронна пошта', validators=[DataRequired(), Email()])
     password = PasswordField('Пароль', validators=[DataRequired(), Length(min=8)])
     confirm_password = PasswordField('Підтвердіть пароль', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Зарегистрироваться')
+    submit = SubmitField('Зареєструватися')
 
 class LoginForm(FlaskForm):
     email = StringField('Електронна пошта', validators=[DataRequired(), Email()])
@@ -145,7 +148,7 @@ class Supply(db.Model):
     __tablename__ = 'supply'
     id = db.Column(db.Integer, primary_key=True)
     data_about_order_id = db.Column(db.Integer, db.ForeignKey('data_about_order.id'), nullable=False)
-    #rank_catalogue_id = db.Column(db.Integer, db.ForeignKey('rank_catalogue.id'), nullable=False)
+    rank_catalogue_id = db.Column(db.Integer, db.ForeignKey('rank_catalogue.id'), nullable=False)
     counterparty_id = db.Column(db.Integer, db.ForeignKey('counterparty.id'), nullable=False)
     #revenue_invoice_id = db.Column(db.Integer, db.ForeignKey('revenue_invoice.id'), nullable=False)
     #return_invoice_id = db.Column(db.Integer, db.ForeignKey('return_invoice.id'), nullable=False)
@@ -166,6 +169,7 @@ with app.app_context():
     db.create_all()
 
 login_manager = LoginManager()
+login_manager.login_view = 'login'
 login_manager.init_app(app)
 
 @login_manager.user_loader
@@ -313,14 +317,22 @@ def register():
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
-    form = LoginForm()
-    user = User.query.filter_by(email=form.email.data).first()
-    if user and check_password_hash(user.password, form.password.data):
-        login_user(user)
-        flash('Вход выполнен!', 'success')
-        return redirect(url_for('home'))
-    else:
-        flash('Неверный email или пароль', 'danger')
+
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        user = User.query.filter_by(email=email).first()
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            flash('Вхід виконано!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Невірний email або пароль', 'danger')
+
+    return render_template("login.html")
+
+
 
 @app.route("/logout")
 def logout():

@@ -66,20 +66,27 @@
     <div class="modal-content">
         <span class="close" onclick="closeModal('modal6')">&times;</span>
         <h2>ТОВ Ango</h2>
-        <table class="table table-striped table-bordered text-center">
+        <form id="dataForm">
+            <table>
                 <tr>
                     <td>Керівник</td>
-                    <td>ПІБ</td>
+                    <td><input type="text" id="name" name="name"></td>
                 </tr>
                 <tr>
                     <td>Дата народження</td>
-                    <td>03.03.1967</td>
+                    <td><input type="date" id="birthdate" name="birthdate"></td>
                 </tr>
                 <tr>
-                    <td>Сфера інтересів</td>
-                    <td>Полюбляє пінг-понг</td>
+                    <td>Телефон</td>
+                    <td><input type="tel" id="phone" name="phone"></td>
                 </tr>
-        </table>
+            </table>
+    
+            <label for="message">Сфера інтересів</label><br>
+            <textarea id="message" name="message" rows="4"></textarea><br><br>
+    
+            <button type="button" class="button" onclick="saveData()">Зберегти</button>
+        </form>
     </div>
 </div>
 
@@ -138,6 +145,38 @@
             event.target.style.display = "none";
         }
     }
+    // Функция сохранения данных в localStorage
+    function saveData() {
+        let name = document.getElementById("name").value;
+        let birthdate = document.getElementById("birthdate").value;
+        let phone = document.getElementById("phone").value;
+        let message = document.getElementById("message").value;
+
+        let formData = {
+            name: name,
+            birthdate: birthdate,
+            phone: phone,
+            message: message
+        };
+
+        localStorage.setItem("formData", JSON.stringify(formData));
+        alert("Дані збережено!");
+    }
+
+    // Функция загрузки данных при открытии страницы
+    function loadData() {
+        let savedData = localStorage.getItem("formData");
+        if (savedData) {
+            let formData = JSON.parse(savedData);
+            document.getElementById("name").value = formData.name;
+            document.getElementById("birthdate").value = formData.birthdate;
+            document.getElementById("phone").value = formData.phone;
+            document.getElementById("message").value = formData.message;
+        }
+    }
+
+    // Загружаем данные при открытии страницы
+    window.onload = loadData;
 </script>
 <style>
     .container1 {
@@ -154,6 +193,20 @@
     table {
         width: 100%;
         border-collapse: collapse;
+        margin-bottom: 15px;
+    }
+    input {
+        width: 100%;
+        padding: 6px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    textarea {
+        width: 100%;
+        padding: 6px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        height: 100px;
     }
     th, td {
         border: 1px solid #ddd;
@@ -180,7 +233,7 @@
     }
 
     .modal-content {
-        background-color: white;
+        background-color: rgb(255, 254, 254);
         margin: 10% auto;
         padding: 20px;
         border-radius: 8px;
@@ -199,6 +252,20 @@
 
     .close:hover {
         color: black;
+    }
+
+    button {
+        background-color: #6f65fe;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        max-width: 200px;
+        display: block;
+        margin: 1px auto;
     }
 </style>
 {% endblock %}

@@ -1,141 +1,94 @@
 {% extends "base.html" %}
 
 {% block content %}
-<head>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-md-4">
+                
+            <!-- Вывод сообщений об успехе или ошибке -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
 
-        .registration-container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 400px;
-        }
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="text-center">Реєстрація користувача</h2>
+                    <form id="registrationForm" action="/register" method="POST">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Логін</label>
+                            <input type="text" id="username" name="login" class="form-control" required>
+                        </div>
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: #333;
-        }
+                        <div class="mb-3">
+                            <label for="lastName" class="form-label">Прізвище</label>
+                            <input type="text" id="lastName" name="usersurname" class="form-control" required>
+                        </div>
 
-        label {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 5px;
-            display: block;
-        }
+                        <div class="mb-3">
+                            <label for="firstName" class="form-label">Ім'я</label>
+                            <input type="text" id="firstName" name="username" class="form-control" required>
+                        </div>
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-mail</label>
+                            <input type="email" id="email" name="email" class="form-control" pattern=".+@example\.com" size="30" required />
+                        </div>
 
-        input:focus {
-            border-color: #0056b3;
-            outline: none;
-        }
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Пароль</label>
+                            <input type="password" id="password" name="password" class="form-control" required>
+                            <small class="text-muted">Мінімум 8 символів, включаючи великі та малі літери, цифри та спеціальні символи.</small>
+                        </div>
 
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #0056b3;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-        }
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Підтвердження пароля</label>
+                            <input type="password" id="confirmPassword" name="confirm_password" class="form-control" required>
+                        </div>
 
-        button:hover {
-            background-color: #003f8c;
-        }
+                        <button type="submit" class="btn btn-primary w-100">Зареєструватись</button>
+                    </form>
 
-        p {
-            text-align: center;
-            font-size: 14px;
-            margin-top: 20px;
-        }
-
-        a {
-            color: #0056b3;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        
-        <!-- Вывод сообщений об успехе или ошибке -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div class="alert alert-{{ messages[0][0] }} alert-dismissible fade show" role="alert">
-                    {{ messages[0][1] }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <p class="text-center mt-3">Вже маєте акаунт? <a href="/login">Увійти</a></p>
                 </div>
-            {% endif %}
-        {% endwith %}
-        
-        <div class="registration-container">
-            <h2>Реєстрація користувача</h2>
-            <form id="registrationForm" action="/submit-registration" method="POST">
-                <label for="username">Логін</label>
-                <input type="text" id="username" name="username" required>
-                
-                <label for="lastName">Прізвище</label>
-                <input type="text" id="lastName" name="lastName" required>
-        
-                <label for="firstName">Ім'я</label>
-                <input type="text" id="firstName" name="firstName" required>
-                
-                <label for="password">Пароль</label>
-                <input type="password" id="password" name="password" required>
-                
-                <label for="confirmPassword">Підтвердження пароля</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" required>
-        
-                <button type="submit">Зареєструватись</button>
-            </form>        
-            <p>Вже маєте акаунт? <a href="/login">Увійти</a></p>
+            </div>
         </div>
     </div>
 </div>
+
 <script>
     document.getElementById('registrationForm').addEventListener('submit', function(e) {
-    var password = document.getElementById('password').value;
-    var confirmPassword = document.getElementById('confirmPassword').value;
-    
-    // Проверка на совпадение паролей
-    if (password !== confirmPassword) {
-        alert('Паролі не збігаються!');
-        e.preventDefault();  // Останавливает отправку формы
-        return;  // Выход из функции
-    }
+        var password = document.getElementById('password');
+        var confirmPassword = document.getElementById('confirmPassword');
 
-    // Проверка надежности пароля
-    if (!isPasswordStrong(password)) {
-        alert('Пароль повинен містити хоча б 8 символів, включаючи великі та малі літери, цифри та спеціальні символи.');
-        e.preventDefault();  // Останавливает отправку формы
-        return;  // Выход из функции
-    }
-});
+        // Очистка предыдущих ошибок
+        password.classList.remove('is-invalid');
+        confirmPassword.classList.remove('is-invalid');
 
-function isPasswordStrong(password) {
-    var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return regex.test(password);
-}
+        if (password.value !== confirmPassword.value) {
+            confirmPassword.classList.add('is-invalid');
+            alert('Паролі не збігаються!');
+            e.preventDefault();
+            return;
+        }
+        /*
+        if (!isPasswordStrong(password.value)) {
+            password.classList.add('is-invalid');
+            alert('Пароль повинен містити хоча б 8 символів, включаючи великі та малі літери, цифри та спеціальні символи.');
+            e.preventDefault();
+        }
+        */
+    });
+
+    function isPasswordStrong(password) {
+        var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        return regex.test(password);
+    }
 </script>
 {% endblock %}

@@ -3,7 +3,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #afdefc; /* Светлый голубой */
+    background-color: #cfe8f8; /* Светлый голубой */
     padding: 10px 20px;
     border-bottom: 1px solid #e0e0e0;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
@@ -129,7 +129,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #fafafa; /* Светлый фон для страницы */
+    background-color: #b3b3b3; /* Светлый фон для страницы */
     color: #333;
 }
 
@@ -182,4 +182,22 @@ button:hover {
     .grid {
         grid-template-columns: 1fr; /* 1 колонка */
     }
+}
+
+textarea {
+    width: 100%;
+    max-width: 800px;
+    height: 150px;
+    padding: 10px;
+    border: 2px solid #cbcbcb;
+    border-radius: 10px;
+    font-size: 16px;
+    resize: none;
+    outline: none;
+    transition: 0.3s;
+}
+
+textarea:focus {
+    border-color: #45a049;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
 }

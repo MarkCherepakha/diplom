@@ -23,6 +23,16 @@
     button.btn {
         padding: 5px 10px;
     }
+    .btn{
+        font-weight: bold;
+        text-decoration: none;
+        color: #333;
+        padding: 8px 15px;
+        border-radius: 5px;
+        background-color: #6f65fe;
+        color: white;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
 </style>
 <ul class="navbar-list">
     <li><a href="/add_counterparty" class="navbar-link {% if active_page == 'add_counterparty' %}active{% endif %}">Додати контрагента</a></li>
