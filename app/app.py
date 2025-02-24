@@ -7,6 +7,7 @@ from datetime import datetime
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, FloatField, DateField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, NumberRange, Optional
+from flask_migrate import Migrate
 
 
 # Настройки для базы данных
@@ -15,9 +16,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tasks.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = '1111'
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
+    login = db.Column(db.String(20), unique=True, nullable=False)
     username = db.Column(db.String(20), unique=True, nullable=False)
     usersurname = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -306,7 +309,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         flash(f'Аккаунт создан для {form.username.data}!', 'success')
-        new_user = User(username=form.username.data, email=form.email.data,
+        new_user = User(login=form.login.data, username=form.username.data, usersurname=form.usersurname.data, email=form.email.data,
                 password=generate_password_hash(form.password.data))
         db.session.add(new_user)
         db.session.commit()
